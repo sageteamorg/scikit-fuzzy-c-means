@@ -1,6 +1,6 @@
 # FuzzyCMeans: A Fuzzy C-Means Clustering Extension for Scikit-Learn
 
-![Python](https://img.shields.io/badge/python-3.6%2B-blue.svg)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 ## Overview
@@ -25,7 +25,7 @@ This package is designed to seamlessly integrate with the Scikit-Learn ecosystem
 
 ### Using pip
 ```bash
-pip install fuzzy-c-means-sklearn
+pip install scikit-fuzzy-c-means
 ```
 
 ### Manual Installation
@@ -114,7 +114,7 @@ Returns the cluster centers after fitting the model.
 
 ## Requirements
 
-- Python 3.6 or higher
+- Python 3.9 or higher
 - NumPy
 - SciPy
 - Scikit-Learn
