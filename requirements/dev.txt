@@ -44,8 +44,6 @@ pytest-cov==6.0.0
 PyYAML==6.0.2
 questionary==2.0.1
 requests==2.32.3
-ruff==0.7.4
--e git+ssh://git@github.com/sageteamorg/scikit-fuzzy-c-means.git@a09f459adaa5c5bcda60bc72e970b00b74f019e3#egg=scikit_fuzzy_c_means
 scikit-learn==1.5.2
 scipy==1.14.1
 snowballstemmer==2.2.0
