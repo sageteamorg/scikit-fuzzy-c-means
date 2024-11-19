@@ -42,7 +42,7 @@ classifiers = [
 "Issues" = "https://github.com/sageteamorg/scikit-fuzzy-c-means/issues"
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.10"
 scikit-learn = "^1.5.2"
 scipy = "^1.14.1"
 commitizen = "^3.31.0"
@@ -52,7 +52,6 @@ pytest = "^8.3.3"
 ruff = "^0.7.4"
 tox = "^4.23.2"
 pylint = "^3.3.1"
-docformatter = "^1.7.5"
 pytest-cov = "^6.0.0"
 black = "^24.10.0"
 isort = "^5.13.2"
