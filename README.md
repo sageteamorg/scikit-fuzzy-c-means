@@ -5,7 +5,7 @@
 
 ## Overview
 
-`FuzzyCMeans` is a Scikit-Learn-compatible implementation of the **Fuzzy C-Means** clustering algorithm. This algorithm extends traditional clustering techniques by allowing data points to belong to multiple clusters with varying degrees of membership, making it ideal for datasets with overlapping or ambiguous cluster boundaries. 
+`FuzzyCMeans` is a Scikit-Learn-compatible implementation of the **Fuzzy C-Means** clustering algorithm. This algorithm extends traditional clustering techniques by allowing data points to belong to multiple clusters with varying degrees of membership, making it ideal for datasets with overlapping or ambiguous cluster boundaries.
 
 This package is designed to seamlessly integrate with the Scikit-Learn ecosystem, offering a familiar API and compatibility with pipelines, transformers, and other utilities.
 

@@ -17,7 +17,7 @@ Generating Synthetic Dataset
         n_samples=300,
         centers=3,
         cluster_std=2.5,  # Increased std for overlap
-        random_state=42
+        random_state=42,
     )
 
     # Visualize the dataset
@@ -53,7 +53,11 @@ Fitting Fuzzy C-Means Model
     # Visualize the fuzzy cluster centers
     sns.scatterplot(x=X_train[:, 0], y=X_train[:, 1], color="gray", alpha=0.6)
     sns.scatterplot(
-        x=fcm.cluster_centers_[:, 0], y=fcm.cluster_centers_[:, 1], color="red", s=100, label="Cluster Centers"
+        x=fcm.cluster_centers_[:, 0],
+        y=fcm.cluster_centers_[:, 1],
+        color="red",
+        s=100,
+        label="Cluster Centers",
     )
     plt.title("Fuzzy Cluster Centers on Training Data")
     plt.xlabel("Feature 1")
@@ -71,14 +75,15 @@ Performing Hyperparameter Tuning
 .. code-block:: python
 
     from sklearn.model_selection import ParameterGrid
-    from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+    from sklearn.metrics import (
+        silhouette_score,
+        davies_bouldin_score,
+        calinski_harabasz_score,
+    )
     import numpy as np
 
     # Define hyperparameter grid
-    param_grid = {
-        "n_clusters": [2, 3, 4],
-        "m": [1.5, 2, 2.5]
-    }
+    param_grid = {"n_clusters": [2, 3, 4], "m": [1.5, 2, 2.5]}
 
     results = []
 
@@ -86,23 +91,25 @@ Performing Hyperparameter Tuning
     for params in ParameterGrid(param_grid):
         fcm = FuzzyCMeans(n_clusters=params["n_clusters"], m=params["m"], random_state=42)
         fcm.fit(X_train)
-        
+
         # Predict membership on validation data
         U_val = fcm._compute_memberships(X_val)
         y_pred = U_val.argmax(axis=1)
-        
+
         # Evaluate clustering performance
         silhouette = silhouette_score(X_val, y_pred)
         davies_bouldin = davies_bouldin_score(X_val, y_pred)
         calinski_harabasz = calinski_harabasz_score(X_val, y_pred)
-        
-        results.append({
-            "n_clusters": params["n_clusters"],
-            "m": params["m"],
-            "silhouette_score": silhouette,
-            "davies_bouldin_score": davies_bouldin,
-            "calinski_harabasz_score": calinski_harabasz
-        })
+
+        results.append(
+            {
+                "n_clusters": params["n_clusters"],
+                "m": params["m"],
+                "silhouette_score": silhouette,
+                "davies_bouldin_score": davies_bouldin,
+                "calinski_harabasz_score": calinski_harabasz,
+            }
+        )
 
 .. image:: _static/output_3_0.png
     :alt: Generated Data with Overlap
@@ -115,7 +122,9 @@ Selecting the Best Parameters
 
     # Select best parameters
     best_params = results_df.sort_values("silhouette_score", ascending=False).iloc[0]
-    fcm_best = FuzzyCMeans(n_clusters=int(best_params["n_clusters"]), m=best_params["m"], random_state=42)
+    fcm_best = FuzzyCMeans(
+        n_clusters=int(best_params["n_clusters"]), m=best_params["m"], random_state=42
+    )
     fcm_best.fit(X_train)
 
     # Predict memberships for the validation data
@@ -182,20 +191,28 @@ Visualizing Membership Degrees
     import plotly.express as px
 
     # Convert membership matrix to long format
-    df_membership = pd.DataFrame(U_val_best, columns=[f"Cluster {i+1}" for i in range(fcm_best.n_clusters)])
+    df_membership = pd.DataFrame(
+        U_val_best, columns=[f"Cluster {i+1}" for i in range(fcm_best.n_clusters)]
+    )
     df_membership["Max Cluster"] = df_membership.idxmax(axis=1)
     df_membership["X"] = X_val[:, 0]
     df_membership["Y"] = X_val[:, 1]
 
     # Long format for interactive plot
     df_membership_long = df_membership.melt(
-        id_vars=["X", "Y", "Max Cluster"], value_vars=[f"Cluster {i+1}" for i in range(fcm_best.n_clusters)],
-        var_name="Cluster", value_name="Membership Degree"
+        id_vars=["X", "Y", "Max Cluster"],
+        value_vars=[f"Cluster {i+1}" for i in range(fcm_best.n_clusters)],
+        var_name="Cluster",
+        value_name="Membership Degree",
     )
 
     # Interactive plot
     fig = px.scatter(
-        df_membership_long, x="X", y="Y", color="Cluster", size="Membership Degree",
+        df_membership_long,
+        x="X",
+        y="Y",
+        color="Cluster",
+        size="Membership Degree",
         title="Membership Degrees per Data Point",
         labels={"Membership Degree": "Degree"},
     )

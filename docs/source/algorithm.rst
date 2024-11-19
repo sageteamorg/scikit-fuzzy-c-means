@@ -57,6 +57,7 @@ Code Overview
    from sklearn.base import BaseEstimator, ClusterMixin
    from scipy.spatial.distance import cdist
 
+
    class FuzzyCMeans(BaseEstimator, ClusterMixin):
        """
        Fuzzy C-Means clustering algorithm.
@@ -134,7 +135,7 @@ Helper Methods
 
           for _ in range(1, self.n_clusters):
               distances = np.min(cdist(X, np.array(centers)), axis=1)
-              probabilities = distances ** 2 / np.sum(distances ** 2)
+              probabilities = distances**2 / np.sum(distances**2)
               next_idx = np.random.choice(n_samples, p=probabilities)
               centers.append(X[next_idx])
 
@@ -150,7 +151,7 @@ Helper Methods
    .. code-block:: python
 
       def _compute_centers(self, X):
-          um = self.U_ ** self.m
+          um = self.U_**self.m
           return (um.T @ X) / np.sum(um.T, axis=1, keepdims=True)
 
 3. **Update Membership Matrix**:
@@ -167,7 +168,7 @@ Helper Methods
           distances = np.fmax(distances, 1e-10)
           inv_distances = 1.0 / distances
           power = 2 / (self.m - 1)
-          return inv_distances ** power / np.sum(inv_distances ** power, axis=1, keepdims=True)
+          return inv_distances**power / np.sum(inv_distances**power, axis=1, keepdims=True)
 
 4. **Prediction**:
    Assign hard cluster labels based on the maximum membership degree:

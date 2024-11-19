@@ -1,6 +1,6 @@
 import numpy as np
-from sklearn.base import BaseEstimator, ClusterMixin
 from scipy.spatial.distance import cdist
+from sklearn.base import BaseEstimator, ClusterMixin
 
 
 class FuzzyCMeans(BaseEstimator, ClusterMixin):
@@ -66,7 +66,7 @@ class FuzzyCMeans(BaseEstimator, ClusterMixin):
             raise ValueError("max_iter must be a positive integer.")
         if tol <= 0:
             raise ValueError("tol must be a positive float.")
-        
+
         self.n_clusters = n_clusters
         self.m = m
         self.max_iter = max_iter
@@ -99,7 +99,7 @@ class FuzzyCMeans(BaseEstimator, ClusterMixin):
         # Initialize fuzzy membership matrix randomly
         self.U_ = np.random.dirichlet(np.ones(self.n_clusters), size=n_samples)
 
-        for iteration in range(self.max_iter):
+        for _iteration in range(self.max_iter):
             U_prev = self.U_.copy()
 
             # Update cluster centers
@@ -178,7 +178,7 @@ class FuzzyCMeans(BaseEstimator, ClusterMixin):
             distances = np.min(cdist(X, np.array(centers)), axis=1)
 
             # Step 3: Compute probabilities proportional to distances
-            probabilities = distances ** 2
+            probabilities = distances**2
             probabilities /= probabilities.sum()
 
             # Step 4: Choose the next cluster center based on probabilities
@@ -201,7 +201,7 @@ class FuzzyCMeans(BaseEstimator, ClusterMixin):
         centers : ndarray of shape (n_clusters, n_features)
             Updated cluster centers.
         """
-        um = self.U_ ** self.m  # Fuzzy memberships raised to the power of m
+        um = self.U_**self.m  # Fuzzy memberships raised to the power of m
         return (um.T @ X) / np.sum(um.T, axis=1, keepdims=True)
 
     def _update_memberships(self, X):
@@ -222,7 +222,9 @@ class FuzzyCMeans(BaseEstimator, ClusterMixin):
         distances = np.fmax(distances, 1e-10)  # Avoid division by zero
         inv_distances = 1.0 / distances
         power = 2 / (self.m - 1)
-        return inv_distances ** power / np.sum(inv_distances ** power, axis=1, keepdims=True)
+        return inv_distances**power / np.sum(
+            inv_distances**power, axis=1, keepdims=True
+        )
 
     def _compute_memberships(self, X):
         """
@@ -242,4 +244,6 @@ class FuzzyCMeans(BaseEstimator, ClusterMixin):
         distances = np.fmax(distances, 1e-10)
         inv_distances = 1.0 / distances
         power = 2 / (self.m - 1)
-        return inv_distances ** power / np.sum(inv_distances ** power, axis=1, keepdims=True)
+        return inv_distances**power / np.sum(
+            inv_distances**power, axis=1, keepdims=True
+        )

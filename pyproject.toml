@@ -1,17 +1,51 @@
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = [ "poetry-core" ]
+
 [tool.poetry]
 name = "scikit-fuzzy-c-means"
 version = "0.1.0"
 description = "fuzzy c-means machine learnnig algorithm in scikit-learn style code"
-authors = ["Sepehr Akbarzadeh <sa.goldeneagle@gmail.com>"]
+authors = [ "Sepehr Akbarzadeh <sa.goldeneagle@gmail.com>" ]
 license = "BSD 3-Clause License"
 readme = "README.md"
+repository = "https://github.com/sageteamorg/scikit-fuzzy-c-means"
+
+packages = [
+  { include = "fuzzy_cmeans" },
+]
+
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: C",
+  "Programming Language :: Python",
+  "Topic :: Software Development",
+  "Topic :: Scientific/Engineering",
+  "Development Status :: 5 - Production/Stable",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Operating System :: Unix",
+  "Operating System :: MacOS",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+]
+
+[tool.poetry.urls]
+"Documentation" = "https://scikit-fuzzy-c-means.readthedocs.io/en/latest/"
+"Issues" = "https://github.com/sageteamorg/scikit-fuzzy-c-means/issues"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.9"
 scikit-learn = "^1.5.2"
 scipy = "^1.14.1"
 commitizen = "^3.31.0"
-
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
@@ -26,6 +60,169 @@ mypy = "^1.13.0"
 sphinx-rtd-theme = "^3.0.2"
 pre-commit = "^4.0.1"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.black]
+line-length = 88
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+  | migrations
+  | venv
+  | env
+  | __pycache__
+  | static
+  | media
+  | node_modules
+  | env
+  | kernel
+  | \.mypy_cache
+  | \.pytest_cache
+  | .*\.egg-info
+)/
+'''
+
+[tool.ruff]
+line-length = 88
+exclude = [
+  "*.egg-info/*",
+  ".git/*",
+  ".mypy_cache/*",
+  ".pytest_cache/*",
+  ".venv/*",
+  "__pycache__/*",
+  "apps.py",
+  "build/*",
+  "dist/*",
+  "migrations/*",
+  "sage_shop/warehouse/schemas/*",
+  "tests",
+  "venv/*",
+]
+
+lint.select = [
+  "B",   # Bugbear codes for potential issues
+  "C90", # Custom error codes
+  "E",   # PEP8 error codes
+  "F",   # PyFlakes error codes
+  "S",   # Security checks
+]
+lint.ignore = [
+  "E203", # Ignore whitespace before ':', ';', or '#'
+  "E501", # Ignore line length issues (lines longer than 88 characters)
+]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+skip = [
+  "venv",
+  ".venv",
+  "build",
+  "dist",
+  ".git",
+  "__pycache__",
+  "*.egg-info",
+  ".mypy_cache",
+  ".pytest_cache",
+  "migrations",
+  "static",
+  "media",
+  "node_modules",
+  "env",
+  "kernel",
+]
+
+[tool.pylint]
+disable = [
+  "C0114", # Missing module docstring
+  "C0115", # Missing class docstring
+  "C0116", # Missing function or method docstring
+  "E1101", # Instance of 'Foo' has no 'bar' member (Django dynamic attributes)
+  "W0212", # Access to a protected member _foo of a client class
+  "R0903", # Too few public methods (for Django models)
+  "R0801", # Similar Codes
+]
+max-line-length = 88
+ignore = [
+  "migrations",
+  "*/apps.py",
+  ".venv/*",
+  "build/*",
+  "dist/*",
+  ".git/*",
+  "__pycache__/*",
+  "*.egg-info/*",
+  ".mypy_cache/*",
+  ".pytest_cache/*",
+  "tests",
+]
+load-plugins = [
+  "pylint.extensions.docparams",
+]
+good-names = [
+  "qs", # QuerySet abbreviation
+  "pk", # Primary key abbreviation
+  "id", # Identifier
+]
+suggestion-mode = true
+const-rgx = "([A-Z_][A-Z0-9_]*)|(__.*__)"
+attr-rgx = "[a-z_][a-z0-9_]{2,30}$"
+variable-rgx = "[a-z_][a-z0-9_]{2,30}$"
+argument-rgx = "[a-z_][a-z0-9_]{2,30}$"
+method-rgx = "[a-z_][a-z0-9_]{2,30}$"
+function-rgx = "[a-z_][a-z0-9_]{2,30}$"
+class-rgx = "[A-Z_][a-zA-Z0-9]+$"
+module-rgx = "(([a-z_][a-z0-9_]*)|(__.*__))$"
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-report=term-missing --cov-report=html --cov-fail-under=90"
+DJANGO_SETTINGS_MODULE = "kernel.settings"
+python_files = [ "tests.py", "test_*.py" ]
+testpaths = [ "tests" ]
+norecursedirs = [
+  "env",
+  "venv",
+  ".venv",
+  "dist",
+  "build",
+]
+
+[tool.coverage.run]
+omit = [
+  "*/migrations/*",
+  "kernel/*",
+  "*/apps.py",
+  "manage.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if self\\.debug",
+  "raise AssertionError",
+  "if 0:",
+  "if __name__ == .__main__.:",
+]
+
+[tool.mypy]
+mypy_path = "stubs"
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+explicit_package_bases = true
+exclude = '''
+^docs/source/conf.py|
+^build/|
+^tests/|
+^stubs/|
+^kernel/
+'''
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.2.0"
+
+[tool.commitizen.settings]
+increment_types = [ "feat", "fix" ]
