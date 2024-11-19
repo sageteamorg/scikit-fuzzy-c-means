@@ -58,6 +58,15 @@ class FuzzyCMeans(BaseEstimator, ClusterMixin):
     """
 
     def __init__(self, n_clusters=3, m=2, max_iter=150, tol=1e-4, random_state=None):
+        if n_clusters <= 0:
+            raise ValueError("n_clusters must be a positive integer.")
+        if m <= 1:
+            raise ValueError("m (fuzziness coefficient) must be greater than 1.")
+        if max_iter <= 0:
+            raise ValueError("max_iter must be a positive integer.")
+        if tol <= 0:
+            raise ValueError("tol must be a positive float.")
+        
         self.n_clusters = n_clusters
         self.m = m
         self.max_iter = max_iter
