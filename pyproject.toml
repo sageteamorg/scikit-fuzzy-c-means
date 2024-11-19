@@ -4,7 +4,7 @@ requires = [ "poetry-core" ]
 
 [tool.poetry]
 name = "scikit-fuzzy-c-means"
-version = "0.1.1"
+version = "0.1.2"
 description = "fuzzy c-means machine learnnig algorithm in scikit-learn style code"
 authors = [ "Sepehr Akbarzadeh <sa.goldeneagle@gmail.com>" ]
 license = "BSD 3-Clause License"
